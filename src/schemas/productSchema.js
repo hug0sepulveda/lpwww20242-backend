@@ -3,10 +3,11 @@ const productSchema = `#graphql
   type Product {
     id: ID!
     name: String!
-    description: String!
+    categories: [String!]!
     price: Float!
-    imageUrl: String
-    stock: Int!
+    description: String!
+    imageUrl: String!
+    isAvailable: Boolean!
   }
 
   type Query {
@@ -17,19 +18,23 @@ const productSchema = `#graphql
   type Mutation {
     addProduct(
       name: String!
-      description: String!
+      categories: [String!]!
       price: Float!
-      imageUrl: String
-      stock: Int
+      description: String!
+      imageUrl: String!
+      isAvailable: Boolean
     ): Product
+
     updateProduct(
       id: ID!
       name: String
+      categories: [String!]
       description: String
       price: Float
       imageUrl: String
-      stock: Int
+      isAvailable: Boolean
     ): Product
+    
     deleteProduct(id: ID!): String
   }
 `;
