@@ -4,6 +4,7 @@ const productResolver = {
   Query: {
     Products: async () => await Product.find(),
     ProductById: async (_, { id }) => await Product.findById(id),
+    ProductsByCategory: async (_, { category }) => await Product.find({ categories: category })
   },
   Mutation: {
     addProduct: async (_, args) => {

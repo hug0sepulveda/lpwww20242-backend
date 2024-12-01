@@ -13,6 +13,7 @@ const productSchema = `#graphql
   type Query {
     Products: [Product!]
     ProductById(id: ID!): Product
+    ProductsByCategory(category: String!): [Product!]
   }
 
   type Mutation {
