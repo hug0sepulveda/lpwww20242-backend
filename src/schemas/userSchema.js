@@ -15,6 +15,7 @@ type Order {
 type Query {
   Users: [User!]!
   UsersById(id: ID!): User
+  UsersByEmail(email: String!): User
 }
 
 type Mutation {

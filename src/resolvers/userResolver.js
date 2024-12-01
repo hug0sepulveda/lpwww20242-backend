@@ -5,6 +5,7 @@ const resolvers = {
   Query: {
     Users: async () => User.find().populate('orderHistory'),
     UsersById: async (_, { id }) => User.findById(id).populate('orderHistory'),
+    UsersByEmail: async (_, { email }) => User.findOne({email}).populate('orderHistory'),
   },
   Mutation: {
     addUser: async (_, { email, password, contactNumber }) => {
