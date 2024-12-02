@@ -3,25 +3,48 @@ import { WebSocketServer } from 'ws';
 export const startWebSocketServer = (httpServer) => {
     const wss = new WebSocketServer({ server: httpServer });
 
+    // Estado inicial de la temperatura y el ventilador
+    let currentTemperature = 25; // Temperatura inicial
+    let ventiladorStatus = 'apagado'; // Estado inicial del ventilador
+
     wss.on('connection', (socket) => {
         console.log('Cliente WebSocket conectado');
 
-        // Enviar datos periódicamente
-        const interval = setInterval(() => {
-            // Generamos un valor aleatorio de temperatura entre 20 y 35 grados
-            const randomValue = (Math.random() * (6) + 20).toFixed(2); // Temperatura entre 20°C y 35°C
-            
-            // Lógica de control del ventilador
-            let ventiladorStatus = 'apagado';
-            if (randomValue >= 30) {
-                ventiladorStatus = 'encendido'; // Temperatura alta, ventilador encendido
-            } else if (randomValue >= 25) {
-                ventiladorStatus = 'bajo'; // Temperatura media, ventilador a baja velocidad
+        // Función para generar cambios en la temperatura
+        const generateTemperature = () => {
+            if (ventiladorStatus === 'encendido') {
+                // Si el ventilador está encendido, disminuye la temperatura lentamente
+                currentTemperature += (-Math.random() * 0.35) + 0.1; 
+            } else {
+                // Si el ventilador está apagado, la temperatura sube o fluctúa
+                currentTemperature += Math.random() * 0.75 - 0.25; 
             }
 
+            // Asegurar que la temperatura no sea negativa
+            currentTemperature = Math.max(currentTemperature, 0);
+
+            // Redondear a dos decimales
+            return currentTemperature.toFixed(2);
+        };
+
+        // Función para manejar el estado del ventilador
+        const controlVentilator = () => {
+            if (currentTemperature >= 30) {
+                ventiladorStatus = 'encendido';
+            } else if (currentTemperature <= 20) {
+                ventiladorStatus = 'apagado';
+            }
+            return ventiladorStatus;
+        };
+
+        // Enviar datos periódicamente
+        const interval = setInterval(() => {
+            const randomValue = generateTemperature();
+            const ventiladorStatus = controlVentilator();
+
             const responseObject = {
-                randomValue: randomValue,
-                ventiladorStatus: ventiladorStatus
+                randomValue,
+                ventiladorStatus,
             };
 
             // Serializa el objeto antes de enviarlo
