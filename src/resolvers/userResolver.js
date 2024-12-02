@@ -8,13 +8,14 @@ const resolvers = {
     UsersByEmail: async (_, { email }) => User.findOne({email}).populate('orderHistory'),
   },
   Mutation: {
-    addUser: async (_, { email, password, contactNumber }) => {
-      const newUser = new User({ email, password, contactNumber });
+    addUser: async (_, { email, userName, password, contactNumber }) => {
+      const newUser = new User({ email, userName, password, contactNumber });
       return newUser.save();
     },
-    updateUser: async (_, { id, email, password, contactNumber }) => {
+    updateUser: async (_, { id, email, userName, password, contactNumber }) => {
       const updateData = {};
       if (email) updateData.email = email;
+      if (userName) updateData.userName = userName;
       if (password) updateData.password = password;
       if (contactNumber) updateData.contactNumber = contactNumber;
       

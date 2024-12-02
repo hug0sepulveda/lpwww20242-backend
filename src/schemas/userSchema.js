@@ -3,6 +3,7 @@ const userSchema = `#graphql
 type User {
   id: ID!
   email: String!
+  userName: String!,
   password: String!
   contactNumber: String!
   orderHistory: [Order!]
@@ -21,6 +22,7 @@ type Query {
 type Mutation {
   addUser(
     email: String!,
+    userName: String!,
     password: String!,
     contactNumber: String!
   ): User!
@@ -28,6 +30,7 @@ type Mutation {
   updateUser(
     id: ID!, 
     email: String,
+    userName: String,
     password: String,
     contactNumber: String
   ): User!
