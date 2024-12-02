@@ -4,6 +4,7 @@ const orderResolver = {
   Query: {
     Orders: async () => await Order.find(),
     OrderById: async (_, { id }) => await Order.findById(id),
+    OrderByUser: async (_, { user }) => await Order.find({ user: user }),
   },
   Mutation: {
     addOrder: async (_, args) => {
