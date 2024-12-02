@@ -6,6 +6,7 @@ import resolvers from './resolvers/index.js';
 import { startWebSocketServer } from './websocket/websocket.js';
 
 import express from 'express';
+import cors from 'cors'; // Importar CORS
 import http from 'http';
 import 'dotenv/config';
 
@@ -20,6 +21,13 @@ const server = new ApolloServer({
 
 // Crear una instancia de Express
 const app = express();
+
+// Configurar CORS para permitir todas las solicitudes
+app.use(cors({
+    origin: '*', // Permitir todos los orígenes
+    methods: ['GET', 'POST'], // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+}));
 
 // Crear el servidor HTTP manualmente
 const httpServer = http.createServer(app);
