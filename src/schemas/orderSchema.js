@@ -26,6 +26,7 @@ const orderSchema = `#graphql
   type Query {
     Orders: [Order!]
     OrderById(id: ID!): Order
+    OrderByUser(user: ID!): [Order]
   }
 
   type Mutation {
